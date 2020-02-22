@@ -1,0 +1,8 @@
+{
+  "name": "hotel-rooms",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/KaimNotark/hotel-rooms.git",
+  "author": "KaimNotark <KaimNotark@yandex.ru>",
+  "license": "MIT"
+}
