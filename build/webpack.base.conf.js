@@ -39,16 +39,20 @@ module.exports = {
       test: /\.js$/,
       loader: 'babel-loader',
       exclude: '/node_modules'
-    }, 
-    {
+    }, {
+      test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]'
+      }
+    }, {
       // images / icons
       test: /\.(png|jpg|gif|svg)$/,
       loader: "file-loader",
       options: {
         name: "[name].[ext]"
       }
-    },
-    {
+    }, {
       test: /\.scss$/,
       use: [
         'style-loader',
@@ -100,11 +104,19 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: `${PATHS.assets}css/[name].[hash].css`,
     }),
-    
-    new CopyWebpackPlugin([
-      { from: `${PATHS.src}/img`, to: `${PATHS.assets}img` },
-      // { from: `${PATHS.src}/${PATHS.assets}fonts`, to: `${PATHS.assets}fonts` },
-      { from: `${PATHS.src}/static`, to: "" }
+
+    new CopyWebpackPlugin([{
+        from: `${PATHS.src}/img`,
+        to: `${PATHS.assets}img`
+      },
+      {
+        from: `${PATHS.src}/fonts`,
+        to: `${PATHS.assets}fonts`
+      },
+      {
+        from: `${PATHS.src}/static`,
+        to: ""
+      }
     ]),
 
     new HtmlWebpackPlugin({
