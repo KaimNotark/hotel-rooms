@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -8,6 +9,12 @@ const PATHS = {
   dist: path.join(__dirname, "../dist"),
   assets: "assets/"
 };
+
+// Pages const for HtmlWebpackPlugin
+// see more: https://github.com/vedees/webpack-template/blob/master/README.md#html-dir-folder
+// const PAGES_DIR = PATHS.src
+const PAGES_DIR = `${PATHS.src}/pug/pages/`;
+const PAGES = fs.readdirSync(PAGES_DIR).filter(fileName => fileName.endsWith('.pug'));
 
 module.exports = {
   externals: {
@@ -36,6 +43,10 @@ module.exports = {
   },
   module: {
     rules: [{
+      test: /\.pug$/,
+      loader: 'pug-loader',
+      // exclude: '/node_modules'
+    }, {
       test: /\.js$/,
       loader: 'babel-loader',
       exclude: '/node_modules'
@@ -119,12 +130,20 @@ module.exports = {
       }
     ]),
 
-    new HtmlWebpackPlugin({
-      hash: false,
-      template: `${PATHS.src}/index.html`,
-      filename: './index.html'
-      // template: `${PAGES_DIR}/${page}`,
-      // filename: `./${page}`
-    })
+    // Automatic creation any html pages (Don't forget to RERUN dev server)
+    // see more: https://github.com/vedees/webpack-template/blob/master/README.md#create-another-html-files
+    // best way to create pages: https://github.com/vedees/webpack-template/blob/master/README.md#third-method-best
+    ...PAGES.map(page => new HtmlWebpackPlugin({
+      template: `${PAGES_DIR}/${page}`,
+      filename: `./${page.replace(/\.pug/,'.html')}`
+    }))
+
+    // new HtmlWebpackPlugin({
+    // hash: false,
+    // template: `${PATHS.src}/index.html`,
+    // filename: './index.html'
+    // template: `${PAGES_DIR}/${page}`,
+    // filename: `./${page}`
+    // })
   ]
 }
