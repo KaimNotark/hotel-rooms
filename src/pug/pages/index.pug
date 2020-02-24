@@ -1,0 +1,24 @@
+extends ../layout/main.pug
+
+block variables
+  - let title = "Hotel rooms";
+  - let description = "Site for searching hotel rooms";
+  - let pageClass = "index-page";
+
+block content
+  section
+    .container
+      h1 Lorem ipsum dolor sit amet, 
+      p Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+
+      +item('item title', 'item descr')
+      +item('item title', 'item descr')
+      +item('item title', 'item descr')
+
+block script
+  script(type='text/javascript').
+    const foo = true;
+    let bar = function() {};
+    if (foo) {
+    bar(1 + 5)
+    }
